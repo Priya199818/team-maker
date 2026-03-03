@@ -1,408 +1,594 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Team Maker</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Team Maker</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
 
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: #0f172a;
-      color: #e2e8f0;
-      min-height: 100vh;
-      padding: 32px 16px;
-    }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: #0f172a;
+        color: #e2e8f0;
+        min-height: 100vh;
+        padding: 32px 16px;
+      }
 
-    h1 {
-      text-align: center;
-      font-size: 2rem;
-      font-weight: 800;
-      margin-bottom: 8px;
-      background: linear-gradient(135deg, #6366f1, #a78bfa);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
+      h1 {
+        text-align: center;
+        font-size: 2rem;
+        font-weight: 800;
+        margin-bottom: 8px;
+        background: linear-gradient(135deg, #6366f1, #a78bfa);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
 
-    .subtitle {
-      text-align: center;
-      color: #64748b;
-      margin-bottom: 40px;
-      font-size: 0.95rem;
-    }
+      .subtitle {
+        text-align: center;
+        color: #64748b;
+        margin-bottom: 40px;
+        font-size: 0.95rem;
+      }
 
-    .container { max-width: 700px; margin: 0 auto; }
+      .container {
+        max-width: 700px;
+        margin: 0 auto;
+      }
 
-    /* STEPS */
-    .step { display: none; }
-    .step.active { display: block; }
+      /* STEPS */
+      .step {
+        display: none;
+      }
+      .step.active {
+        display: block;
+      }
 
-    .step-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 24px;
-    }
+      .step-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 24px;
+      }
 
-    .step-number {
-      width: 36px; height: 36px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #6366f1, #a78bfa);
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 700; font-size: 1rem; flex-shrink: 0;
-    }
+      .step-number {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #6366f1, #a78bfa);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 1rem;
+        flex-shrink: 0;
+      }
 
-    .step-title { font-size: 1.3rem; font-weight: 700; }
+      .step-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+      }
 
-    /* CARDS */
-    .card {
-      background: #1e293b;
-      border: 1px solid #334155;
-      border-radius: 16px;
-      padding: 28px;
-      margin-bottom: 20px;
-    }
+      /* CARDS */
+      .card {
+        background: #1e293b;
+        border: 1px solid #334155;
+        border-radius: 16px;
+        padding: 28px;
+        margin-bottom: 20px;
+      }
 
-    /* INPUTS */
-    label { display: block; font-size: 0.85rem; color: #94a3b8; margin-bottom: 6px; font-weight: 500; }
+      /* INPUTS */
+      label {
+        display: block;
+        font-size: 0.85rem;
+        color: #94a3b8;
+        margin-bottom: 6px;
+        font-weight: 500;
+      }
 
-    input[type="text"], input[type="number"] {
-      width: 100%;
-      background: #0f172a;
-      border: 1px solid #334155;
-      border-radius: 10px;
-      color: #e2e8f0;
-      padding: 12px 16px;
-      font-size: 1rem;
-      outline: none;
-      transition: border-color 0.2s;
-    }
+      input[type="text"],
+      input[type="number"] {
+        width: 100%;
+        background: #0f172a;
+        border: 1px solid #334155;
+        border-radius: 10px;
+        color: #e2e8f0;
+        padding: 12px 16px;
+        font-size: 1rem;
+        outline: none;
+        transition: border-color 0.2s;
+      }
 
-    input[type="text"]:focus, input[type="number"]:focus {
-      border-color: #6366f1;
-    }
+      input[type="text"]:focus,
+      input[type="number"]:focus {
+        border-color: #6366f1;
+      }
 
-    input[type="number"] { width: 120px; }
+      input[type="number"] {
+        width: 120px;
+      }
 
-    /* BUTTONS */
-    .btn {
-      padding: 12px 28px;
-      border: none;
-      border-radius: 10px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: opacity 0.2s, transform 0.1s;
-    }
+      /* BUTTONS */
+      .btn {
+        padding: 12px 28px;
+        border: none;
+        border-radius: 10px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition:
+          opacity 0.2s,
+          transform 0.1s;
+      }
 
-    .btn:hover { opacity: 0.9; transform: translateY(-1px); }
-    .btn:active { transform: translateY(0); }
+      .btn:hover {
+        opacity: 0.9;
+        transform: translateY(-1px);
+      }
+      .btn:active {
+        transform: translateY(0);
+      }
 
-    .btn-primary {
-      background: linear-gradient(135deg, #6366f1, #a78bfa);
-      color: white;
-    }
+      .btn-primary {
+        background: linear-gradient(135deg, #6366f1, #a78bfa);
+        color: white;
+      }
 
-    .btn-secondary {
-      background: #334155;
-      color: #e2e8f0;
-    }
+      .btn-secondary {
+        background: #334155;
+        color: #e2e8f0;
+      }
 
-    .btn-shuffle {
-      background: linear-gradient(135deg, #f59e0b, #ef4444);
-      color: white;
-    }
+      .btn-shuffle {
+        background: linear-gradient(135deg, #f59e0b, #ef4444);
+        color: white;
+      }
 
-    .btn-reset {
-      background: #1e293b;
-      color: #94a3b8;
-      border: 1px solid #334155;
-    }
+      .btn-reset {
+        background: #1e293b;
+        color: #94a3b8;
+        border: 1px solid #334155;
+      }
 
-    .btn-row {
-      display: flex;
-      gap: 12px;
-      margin-top: 24px;
-      flex-wrap: wrap;
-    }
+      .btn-row {
+        display: flex;
+        gap: 12px;
+        margin-top: 24px;
+        flex-wrap: wrap;
+      }
 
-    /* PLAYER LIST */
-    .player-list { display: flex; flex-direction: column; gap: 10px; }
+      /* PLAYER LIST */
+      .player-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
 
-    .player-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      background: #0f172a;
-      border: 1px solid #334155;
-      border-radius: 10px;
-      padding: 10px 14px;
-    }
+      .player-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: #0f172a;
+        border: 1px solid #334155;
+        border-radius: 10px;
+        padding: 10px 14px;
+      }
 
-    .player-index {
-      width: 28px; height: 28px;
-      border-radius: 50%;
-      background: #1e293b;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.8rem;
-      color: #64748b;
-      flex-shrink: 0;
-    }
+      .player-index {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: #1e293b;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8rem;
+        color: #64748b;
+        flex-shrink: 0;
+      }
 
-    .player-row input[type="text"] {
-      flex: 1;
-      background: transparent;
-      border: none;
-      padding: 4px 0;
-      font-size: 0.95rem;
-    }
+      .player-row input[type="text"] {
+        flex: 1;
+        background: transparent;
+        border: none;
+        padding: 4px 0;
+        font-size: 0.95rem;
+      }
 
-    .player-row input[type="text"]:focus { border: none; }
+      .player-row input[type="text"]:focus {
+        border: none;
+      }
 
-    /* STAR RATING */
-    .stars { display: flex; gap: 4px; flex-shrink: 0; }
+      /* STAR RATING */
+      .stars {
+        display: flex;
+        gap: 4px;
+        flex-shrink: 0;
+      }
 
-    .star {
-      font-size: 1.3rem;
-      cursor: pointer;
-      transition: transform 0.1s;
-      color: #334155;
-      user-select: none;
-    }
+      .star-slot {
+        position: relative;
+        display: inline-block;
+        font-size: 1.3rem;
+        user-select: none;
+        transition: transform 0.1s;
+        cursor: pointer;
+      }
 
-    .star:hover { transform: scale(1.2); }
-    .star.filled { color: #f59e0b; }
+      .star-slot:hover {
+        transform: scale(1.15);
+      }
 
-    /* TEAMS OUTPUT */
-    .teams-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 16px;
-    }
+      .star-slot.full {
+        color: #f59e0b;
+      }
+      .star-slot.empty {
+        color: #334155;
+      }
 
-    .team-card {
-      background: #0f172a;
-      border: 1px solid #334155;
-      border-radius: 12px;
-      padding: 18px;
-    }
+      /* Half star: left half gold, right half grey */
+      .star-slot.half {
+        background: linear-gradient(to right, #f59e0b 50%, #334155 50%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
 
-    .team-name {
-      font-weight: 700;
-      font-size: 1rem;
-      margin-bottom: 4px;
-    }
+      /* Invisible click targets for each half of the star */
+      .star-left,
+      .star-right {
+        position: absolute;
+        top: 0;
+        height: 100%;
+        width: 50%;
+        cursor: pointer;
+      }
+      .star-left {
+        left: 0;
+      }
+      .star-right {
+        right: 0;
+      }
 
-    .team-stars {
-      font-size: 0.8rem;
-      color: #f59e0b;
-      margin-bottom: 12px;
-    }
+      /* TEAMS OUTPUT */
+      .teams-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 16px;
+      }
 
-    .team-player {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 6px 0;
-      border-bottom: 1px solid #1e293b;
-      font-size: 0.9rem;
-    }
+      .team-card {
+        background: #0f172a;
+        border: 1px solid #334155;
+        border-radius: 12px;
+        padding: 18px;
+      }
 
-    .team-player:last-child { border-bottom: none; }
+      .team-name {
+        font-weight: 700;
+        font-size: 1rem;
+        margin-bottom: 4px;
+      }
 
-    .team-player-stars { color: #f59e0b; font-size: 0.8rem; }
+      .team-stars {
+        font-size: 0.8rem;
+        color: #f59e0b;
+        margin-bottom: 12px;
+      }
 
-    /* TEAM COLORS */
-    .team-color-0 { border-top: 3px solid #6366f1; }
-    .team-color-1 { border-top: 3px solid #10b981; }
-    .team-color-2 { border-top: 3px solid #f59e0b; }
-    .team-color-3 { border-top: 3px solid #ef4444; }
-    .team-color-4 { border-top: 3px solid #3b82f6; }
-    .team-color-5 { border-top: 3px solid #ec4899; }
-    .team-color-6 { border-top: 3px solid #14b8a6; }
-    .team-color-7 { border-top: 3px solid #f97316; }
+      .team-player {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 6px 0;
+        border-bottom: 1px solid #1e293b;
+        font-size: 0.9rem;
+      }
 
-    .team-name-0 { color: #818cf8; }
-    .team-name-1 { color: #34d399; }
-    .team-name-2 { color: #fbbf24; }
-    .team-name-3 { color: #f87171; }
-    .team-name-4 { color: #60a5fa; }
-    .team-name-5 { color: #f472b6; }
-    .team-name-6 { color: #2dd4bf; }
-    .team-name-7 { color: #fb923c; }
+      .team-player:last-child {
+        border-bottom: none;
+      }
 
-    /* PROGRESS */
-    .progress {
-      display: flex;
-      gap: 8px;
-      justify-content: center;
-      margin-bottom: 32px;
-    }
+      .team-player-stars {
+        color: #f59e0b;
+        font-size: 0.8rem;
+      }
 
-    .progress-dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: #334155;
-      transition: background 0.3s;
-    }
+      /* TEAM COLORS */
+      .team-color-0 {
+        border-top: 3px solid #6366f1;
+      }
+      .team-color-1 {
+        border-top: 3px solid #10b981;
+      }
+      .team-color-2 {
+        border-top: 3px solid #f59e0b;
+      }
+      .team-color-3 {
+        border-top: 3px solid #ef4444;
+      }
+      .team-color-4 {
+        border-top: 3px solid #3b82f6;
+      }
+      .team-color-5 {
+        border-top: 3px solid #ec4899;
+      }
+      .team-color-6 {
+        border-top: 3px solid #14b8a6;
+      }
+      .team-color-7 {
+        border-top: 3px solid #f97316;
+      }
 
-    .progress-dot.active { background: #6366f1; }
-    .progress-dot.done { background: #a78bfa; }
+      .team-name-0 {
+        color: #818cf8;
+      }
+      .team-name-1 {
+        color: #34d399;
+      }
+      .team-name-2 {
+        color: #fbbf24;
+      }
+      .team-name-3 {
+        color: #f87171;
+      }
+      .team-name-4 {
+        color: #60a5fa;
+      }
+      .team-name-5 {
+        color: #f472b6;
+      }
+      .team-name-6 {
+        color: #2dd4bf;
+      }
+      .team-name-7 {
+        color: #fb923c;
+      }
 
-    /* INLINE ROW for step 1 and 3 */
-    .inline-row {
-      display: flex;
-      align-items: flex-end;
-      gap: 16px;
-    }
+      /* PROGRESS */
+      .progress {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        margin-bottom: 32px;
+      }
 
-    .field { flex: 1; }
+      .progress-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #334155;
+        transition: background 0.3s;
+      }
 
-    /* MISC */
-    .hint { font-size: 0.8rem; color: #64748b; margin-top: 8px; }
-    .error { color: #f87171; font-size: 0.85rem; margin-top: 8px; }
+      .progress-dot.active {
+        background: #6366f1;
+      }
+      .progress-dot.done {
+        background: #a78bfa;
+      }
 
-    .summary-bar {
-      background: #0f172a;
-      border: 1px solid #334155;
-      border-radius: 10px;
-      padding: 14px 18px;
-      margin-bottom: 20px;
-      display: flex;
-      gap: 24px;
-      flex-wrap: wrap;
-    }
+      /* INLINE ROW for step 1 and 3 */
+      .inline-row {
+        display: flex;
+        align-items: flex-end;
+        gap: 16px;
+      }
 
-    .summary-item { font-size: 0.85rem; color: #94a3b8; }
-    .summary-item span { color: #e2e8f0; font-weight: 600; }
-  </style>
-</head>
-<body>
+      .field {
+        flex: 1;
+      }
 
-<div class="container">
-  <h1>⚽ Team Maker</h1>
-  <p class="subtitle">Fair teams from unfair players</p>
+      /* MISC */
+      .hint {
+        font-size: 0.8rem;
+        color: #64748b;
+        margin-top: 8px;
+      }
+      .error {
+        color: #f87171;
+        font-size: 0.85rem;
+        margin-top: 8px;
+      }
 
-  <div class="progress">
-    <div class="progress-dot active" id="dot-0"></div>
-    <div class="progress-dot" id="dot-1"></div>
-    <div class="progress-dot" id="dot-2"></div>
-  </div>
+      .summary-bar {
+        background: #0f172a;
+        border: 1px solid #334155;
+        border-radius: 10px;
+        padding: 14px 18px;
+        margin-bottom: 20px;
+        display: flex;
+        gap: 24px;
+        flex-wrap: wrap;
+      }
 
-  <!-- STEP 1: Setup -->
-  <div class="step active" id="step-0">
-    <div class="card">
-      <div class="step-header">
-        <div class="step-number">1</div>
-        <div class="step-title">Setup</div>
+      .summary-item {
+        font-size: 0.85rem;
+        color: #94a3b8;
+      }
+      .summary-item span {
+        color: #e2e8f0;
+        font-weight: 600;
+      }
+
+      footer {
+        text-align: center;
+        margin-top: 40px;
+        padding: 16px;
+        font-size: 0.8rem;
+        color: #475569;
+        border-top: 1px solid #1e293b;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>CNY Team Maker</h1>
+      <p class="subtitle">Let's create teams for the CNY</p>
+
+      <div class="progress">
+        <div class="progress-dot active" id="dot-0"></div>
+        <div class="progress-dot" id="dot-1"></div>
+        <div class="progress-dot" id="dot-2"></div>
       </div>
 
-      <div class="inline-row" style="margin-bottom: 20px;">
-        <div class="field">
-          <label for="player-count">Number of players</label>
-          <input type="number" id="player-count" min="2" max="50" value="10" />
+      <!-- STEP 1: Setup -->
+      <div class="step active" id="step-0">
+        <div class="card">
+          <div class="step-header">
+            <div class="step-number">1</div>
+            <div class="step-title">Setup</div>
+          </div>
+
+          <div class="inline-row" style="margin-bottom: 20px">
+            <div class="field">
+              <label for="player-count">Number of players</label>
+              <input
+                type="number"
+                id="player-count"
+                min="2"
+                max="50"
+                value="10"
+              />
+            </div>
+            <div class="field">
+              <label for="team-count">Number of teams</label>
+              <input type="number" id="team-count" min="2" max="10" value="2" />
+            </div>
+          </div>
+
+          <div id="setup-error" class="error" style="display: none"></div>
+
+          <div class="btn-row">
+            <button class="btn btn-primary" onclick="goToStep1()">
+              Next: Add Players →
+            </button>
+          </div>
         </div>
-        <div class="field">
-          <label for="team-count">Number of teams</label>
-          <input type="number" id="team-count" min="2" max="10" value="2" />
+      </div>
+
+      <!-- STEP 2: Rate Players -->
+      <div class="step" id="step-1">
+        <div class="card">
+          <div class="step-header">
+            <div class="step-number">2</div>
+            <div class="step-title">Rate Each Player</div>
+          </div>
+          <p class="hint" style="margin-bottom: 16px">
+            Enter player names and give each a star rating. Tap the left half of
+            a star for ½, right half for a full star (0.5 – 5).
+          </p>
+
+          <div class="player-list" id="player-list"></div>
+
+          <div id="player-error" class="error" style="display: none"></div>
+
+          <div class="btn-row">
+            <button class="btn btn-secondary" onclick="goToStep(0)">
+              ← Back
+            </button>
+            <button class="btn btn-primary" onclick="generateTeams()">
+              Generate Teams →
+            </button>
+          </div>
         </div>
       </div>
 
-      <div id="setup-error" class="error" style="display:none;"></div>
+      <!-- STEP 3: Results -->
+      <div class="step" id="step-2">
+        <div class="card">
+          <div class="step-header">
+            <div class="step-number">3</div>
+            <div class="step-title">Your Teams</div>
+          </div>
 
-      <div class="btn-row">
-        <button class="btn btn-primary" onclick="goToStep1()">Next: Add Players →</button>
+          <div class="summary-bar" id="summary-bar"></div>
+          <div class="teams-grid" id="teams-output"></div>
+
+          <div class="btn-row">
+            <button class="btn btn-shuffle" onclick="shuffle()">
+              🔀 Shuffle
+            </button>
+            <button class="btn btn-secondary" onclick="goToStep(1)">
+              ← Edit Players
+            </button>
+            <button class="btn btn-reset" onclick="goToStep(0)">
+              ↺ Start Over
+            </button>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- STEP 2: Rate Players -->
-  <div class="step" id="step-1">
-    <div class="card">
-      <div class="step-header">
-        <div class="step-number">2</div>
-        <div class="step-title">Rate Each Player</div>
-      </div>
-      <p class="hint" style="margin-bottom: 16px;">Enter player names and give each a star rating (1–5)</p>
+    <footer>© 2026 Priya Solanki Patel. All rights reserved.</footer>
 
-      <div class="player-list" id="player-list"></div>
+    <script>
+      let players = [];
+      let numTeams = 2;
 
-      <div id="player-error" class="error" style="display:none;"></div>
+      // ─── Navigation ────────────────────────────────────────────────
+      function goToStep(n) {
+        document
+          .querySelectorAll(".step")
+          .forEach((s, i) => s.classList.toggle("active", i === n));
+        document.querySelectorAll(".progress-dot").forEach((d, i) => {
+          d.classList.toggle("active", i === n);
+          d.classList.toggle("done", i < n);
+        });
+      }
 
-      <div class="btn-row">
-        <button class="btn btn-secondary" onclick="goToStep(0)">← Back</button>
-        <button class="btn btn-primary" onclick="generateTeams()">Generate Teams →</button>
-      </div>
-    </div>
-  </div>
+      function goToStep1() {
+        const pc = parseInt(document.getElementById("player-count").value);
+        const tc = parseInt(document.getElementById("team-count").value);
+        const err = document.getElementById("setup-error");
 
-  <!-- STEP 3: Results -->
-  <div class="step" id="step-2">
-    <div class="card">
-      <div class="step-header">
-        <div class="step-number">3</div>
-        <div class="step-title">Your Teams</div>
-      </div>
+        if (isNaN(pc) || pc < 2 || pc > 50) {
+          err.textContent = "Players must be between 2 and 50.";
+          err.style.display = "block";
+          return;
+        }
+        if (isNaN(tc) || tc < 2 || tc > 10) {
+          err.textContent = "Teams must be between 2 and 10.";
+          err.style.display = "block";
+          return;
+        }
+        if (tc > pc) {
+          err.textContent = "Number of teams cannot exceed number of players.";
+          err.style.display = "block";
+          return;
+        }
+        err.style.display = "none";
 
-      <div class="summary-bar" id="summary-bar"></div>
-      <div class="teams-grid" id="teams-output"></div>
+        numTeams = tc;
+        buildPlayerList(pc);
+        goToStep(1);
+      }
 
-      <div class="btn-row">
-        <button class="btn btn-shuffle" onclick="shuffle()">🔀 Shuffle</button>
-        <button class="btn btn-secondary" onclick="goToStep(1)">← Edit Players</button>
-        <button class="btn btn-reset" onclick="goToStep(0)">↺ Start Over</button>
-      </div>
-    </div>
-  </div>
-</div>
+      // ─── Player List ────────────────────────────────────────────────
+      function starSlotClass(rating, position) {
+        if (rating >= position) return "full";
+        if (rating >= position - 0.5) return "half";
+        return "empty";
+      }
 
-<script>
-  let players = [];
-  let numTeams = 2;
+      function buildPlayerList(count) {
+        const list = document.getElementById("player-list");
 
-  // ─── Navigation ────────────────────────────────────────────────
-  function goToStep(n) {
-    document.querySelectorAll('.step').forEach((s, i) => s.classList.toggle('active', i === n));
-    document.querySelectorAll('.progress-dot').forEach((d, i) => {
-      d.classList.toggle('active', i === n);
-      d.classList.toggle('done', i < n);
-    });
-  }
+        const existing = players.slice(0, count);
+        players = Array.from(
+          { length: count },
+          (_, i) => existing[i] || { name: "", stars: 0 },
+        );
 
-  function goToStep1() {
-    const pc = parseInt(document.getElementById('player-count').value);
-    const tc = parseInt(document.getElementById('team-count').value);
-    const err = document.getElementById('setup-error');
-
-    if (isNaN(pc) || pc < 2 || pc > 50) {
-      err.textContent = 'Players must be between 2 and 50.';
-      err.style.display = 'block'; return;
-    }
-    if (isNaN(tc) || tc < 2 || tc > 10) {
-      err.textContent = 'Teams must be between 2 and 10.';
-      err.style.display = 'block'; return;
-    }
-    if (tc > pc) {
-      err.textContent = 'Number of teams cannot exceed number of players.';
-      err.style.display = 'block'; return;
-    }
-    err.style.display = 'none';
-
-    numTeams = tc;
-    buildPlayerList(pc);
-    goToStep(1);
-  }
-
-  // ─── Player List ────────────────────────────────────────────────
-  function buildPlayerList(count) {
-    const list = document.getElementById('player-list');
-
-    // Preserve existing entries if resizing
-    const existing = players.slice(0, count);
-    players = Array.from({ length: count }, (_, i) => existing[i] || { name: '', stars: 0 });
-
-    list.innerHTML = players.map((p, i) => `
+        list.innerHTML = players
+          .map(
+            (p, i) => `
       <div class="player-row">
         <div class="player-index">${i + 1}</div>
         <input
@@ -412,97 +598,138 @@
           oninput="players[${i}].name = this.value"
         />
         <div class="stars" id="stars-${i}">
-          ${[1,2,3,4,5].map(s => `
-            <span class="star ${p.stars >= s ? 'filled' : ''}"
-              onclick="setStars(${i}, ${s})">★</span>
-          `).join('')}
+          ${[1, 2, 3, 4, 5]
+            .map(
+              (s) => `
+            <span class="star-slot ${starSlotClass(p.stars, s)}">★
+              <span class="star-left"  onclick="setStars(${i}, ${s - 0.5})"></span>
+              <span class="star-right" onclick="setStars(${i}, ${s})"></span>
+            </span>
+          `,
+            )
+            .join("")}
         </div>
       </div>
-    `).join('');
-  }
+    `,
+          )
+          .join("");
+      }
 
-  function setStars(playerIndex, stars) {
-    players[playerIndex].stars = stars;
-    const container = document.getElementById(`stars-${playerIndex}`);
-    container.querySelectorAll('.star').forEach((star, i) => {
-      star.classList.toggle('filled', i < stars);
-    });
-  }
+      function setStars(playerIndex, stars) {
+        players[playerIndex].stars = stars;
+        const container = document.getElementById(`stars-${playerIndex}`);
+        container.querySelectorAll(".star-slot").forEach((slot, i) => {
+          slot.className = "star-slot " + starSlotClass(stars, i + 1);
+        });
+      }
 
-  // ─── Algorithm: Greedy Min-Heap ─────────────────────────────────
-  function assignTeams(playerList, teamCount) {
-    // Sort DESC by stars; shuffle within same-star tier for variety
-    const sorted = [...playerList].sort((a, b) => {
-      if (b.stars !== a.stars) return b.stars - a.stars;
-      return Math.random() - 0.5; // shuffle ties
-    });
+      // ─── Algorithm: Greedy Min-Heap ─────────────────────────────────
+      function assignTeams(playerList, teamCount) {
+        // Sort DESC by stars; shuffle within same-star tier for variety
+        const sorted = [...playerList].sort((a, b) => {
+          if (b.stars !== a.stars) return b.stars - a.stars;
+          return Math.random() - 0.5; // shuffle ties
+        });
 
-    // Teams: array of { players[], total }
-    const teams = Array.from({ length: teamCount }, (_, i) => ({ id: i, players: [], total: 0 }));
+        // Teams: array of { players[], total }
+        const teams = Array.from({ length: teamCount }, (_, i) => ({
+          id: i,
+          players: [],
+          total: 0,
+        }));
 
-    for (const player of sorted) {
-      // Find team with lowest total (tiebreak: fewest players)
-      teams.sort((a, b) => a.total !== b.total ? a.total - b.total : a.players.length - b.players.length);
-      teams[0].players.push(player);
-      teams[0].total += player.stars;
-    }
+        for (const player of sorted) {
+          // Find team with lowest total (tiebreak: fewest players)
+          teams.sort((a, b) =>
+            a.total !== b.total
+              ? a.total - b.total
+              : a.players.length - b.players.length,
+          );
+          teams[0].players.push(player);
+          teams[0].total += player.stars;
+        }
 
-    return teams.sort((a, b) => b.total - a.total); // show strongest team first
-  }
+        return teams.sort((a, b) => b.total - a.total); // show strongest team first
+      }
 
-  // ─── Generate & Render ──────────────────────────────────────────
-  function generateTeams() {
-    const err = document.getElementById('player-error');
+      // ─── Generate & Render ──────────────────────────────────────────
+      function generateTeams() {
+        const err = document.getElementById("player-error");
 
-    const unnamed = players.filter(p => !p.name.trim());
-    if (unnamed.length > 0) {
-      err.textContent = `${unnamed.length} player(s) are missing names.`;
-      err.style.display = 'block'; return;
-    }
+        const unnamed = players.filter((p) => !p.name.trim());
+        if (unnamed.length > 0) {
+          err.textContent = `${unnamed.length} player(s) are missing names.`;
+          err.style.display = "block";
+          return;
+        }
 
-    const unrated = players.filter(p => p.stars === 0);
-    if (unrated.length > 0) {
-      err.textContent = `${unrated.length} player(s) are missing a star rating.`;
-      err.style.display = 'block'; return;
-    }
+        const unrated = players.filter((p) => p.stars === 0);
+        if (unrated.length > 0) {
+          err.textContent = `${unrated.length} player(s) are missing a star rating.`;
+          err.style.display = "block";
+          return;
+        }
 
-    err.style.display = 'none';
-    renderTeams(assignTeams(players, numTeams));
-    goToStep(2);
-  }
+        err.style.display = "none";
+        renderTeams(assignTeams(players, numTeams));
+        goToStep(2);
+      }
 
-  function shuffle() {
-    renderTeams(assignTeams(players, numTeams));
-  }
+      function shuffle() {
+        renderTeams(assignTeams(players, numTeams));
+      }
 
-  const TEAM_NAMES = ['Alpha', 'Bravo', 'Charlie', 'Delta', 'Echo', 'Foxtrot', 'Golf', 'Hotel'];
+      const TEAM_NAMES = [
+        "Alpha",
+        "Bravo",
+        "Charlie",
+        "Delta",
+        "Echo",
+        "Foxtrot",
+        "Golf",
+        "Hotel",
+      ];
 
-  function renderTeams(teams) {
-    const totalStars = players.reduce((s, p) => s + p.stars, 0);
-    const totals = teams.map(t => t.total);
-    const max = Math.max(...totals);
-    const min = Math.min(...totals);
+      function starsLabel(count) {
+        const full = Math.floor(count);
+        const half = count % 1 >= 0.5;
+        return "★".repeat(full) + (half ? "½" : "");
+      }
 
-    document.getElementById('summary-bar').innerHTML = `
+      function renderTeams(teams) {
+        const totalStars = players.reduce((s, p) => s + p.stars, 0);
+        const totals = teams.map((t) => t.total);
+        const max = Math.max(...totals);
+        const min = Math.min(...totals);
+
+        document.getElementById("summary-bar").innerHTML = `
       <div class="summary-item">Players <span>${players.length}</span></div>
       <div class="summary-item">Teams <span>${numTeams}</span></div>
       <div class="summary-item">Total stars <span>${totalStars}⭐</span></div>
       <div class="summary-item">Variance <span>${max - min} ⭐</span></div>
     `;
 
-    document.getElementById('teams-output').innerHTML = teams.map((team, i) => `
+        document.getElementById("teams-output").innerHTML = teams
+          .map(
+            (team, i) => `
       <div class="team-card team-color-${i % 8}">
         <div class="team-name team-name-${i % 8}">${TEAM_NAMES[i] || `Team ${i + 1}`}</div>
-        <div class="team-stars">${'★'.repeat(team.total)}  ${team.total} pts</div>
-        ${team.players.map(p => `
+        <div class="team-stars">${team.total} pts</div>
+        ${team.players
+          .map(
+            (p) => `
           <div class="team-player">
             <span>${p.name}</span>
-            <span class="team-player-stars">${'★'.repeat(p.stars)}</span>
+            <span class="team-player-stars">${starsLabel(p.stars)}</span>
           </div>
-        `).join('')}
+        `,
+          )
+          .join("")}
       </div>
-    `).join('');
-  }
-</script>
-</body>
+    `,
+          )
+          .join("");
+      }
+    </script>
+  </body>
 </html>
