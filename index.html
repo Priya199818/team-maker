@@ -731,9 +731,13 @@
       }
 
       function renderMatchups(teams) {
-        const shuffled = [...teams].sort(() => Math.random() - 0.5);
-        const a = TEAM_NAMES[teams.indexOf(shuffled[0])] || "Team 1";
-        const b = TEAM_NAMES[teams.indexOf(shuffled[1])] || "Team 2";
+        const indices = teams.map((_, i) => i);
+        for (let i = indices.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [indices[i], indices[j]] = [indices[j], indices[i]];
+        }
+        const a = TEAM_NAMES[indices[0]] || `Team ${indices[0] + 1}`;
+        const b = TEAM_NAMES[indices[1]] || `Team ${indices[1] + 1}`;
         document.getElementById("matchups-output").innerHTML = `
           <div class="matchup-row">
             <div class="matchup-team">${a}</div>
