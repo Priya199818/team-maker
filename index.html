@@ -417,6 +417,52 @@
         font-weight: 600;
       }
 
+      /* MATCHUPS */
+      .matchups-section {
+        margin-top: 28px;
+      }
+
+      .matchups-title {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #e2e8f0;
+        margin-bottom: 14px;
+      }
+
+      .matchup-row {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        background: #0f172a;
+        border: 1px solid #334155;
+        border-radius: 10px;
+        padding: 14px 18px;
+        margin-bottom: 10px;
+        font-size: 0.95rem;
+      }
+
+      .matchup-team {
+        flex: 1;
+        text-align: center;
+        font-weight: 600;
+      }
+
+      .matchup-vs {
+        font-size: 0.75rem;
+        color: #64748b;
+        font-weight: 700;
+        flex-shrink: 0;
+      }
+
+      .matchup-bye {
+        flex: 1;
+        text-align: center;
+        font-weight: 600;
+        color: #64748b;
+        font-style: italic;
+      }
+
       footer {
         text-align: center;
         margin-top: 40px;
@@ -510,6 +556,11 @@
 
           <div class="summary-bar" id="summary-bar"></div>
           <div class="teams-grid" id="teams-output"></div>
+
+          <div class="matchups-section">
+            <div class="matchups-title">⚔️ Matchups</div>
+            <div id="matchups-output"></div>
+          </div>
 
           <div class="btn-row">
             <button class="btn btn-shuffle" onclick="shuffle()">
@@ -679,15 +730,27 @@
         renderTeams(assignTeams(players, numTeams));
       }
 
+      function renderMatchups(teams) {
+        const shuffled = [...teams].sort(() => Math.random() - 0.5);
+        const a = TEAM_NAMES[teams.indexOf(shuffled[0])] || "Team 1";
+        const b = TEAM_NAMES[teams.indexOf(shuffled[1])] || "Team 2";
+        document.getElementById("matchups-output").innerHTML = `
+          <div class="matchup-row">
+            <div class="matchup-team">${a}</div>
+            <div class="matchup-vs">VS</div>
+            <div class="matchup-team">${b}</div>
+          </div>`;
+      }
+
       const TEAM_NAMES = [
-        "Alpha",
-        "Bravo",
-        "Charlie",
-        "Delta",
-        "Echo",
-        "Foxtrot",
-        "Golf",
-        "Hotel",
+        "Team A",
+        "Team B",
+        "Team C",
+        "Team D",
+        "Team E",
+        "Team F",
+        "Team G",
+        "Team H",
       ];
 
       function starsLabel(count) {
@@ -714,13 +777,11 @@
             (team, i) => `
       <div class="team-card team-color-${i % 8}">
         <div class="team-name team-name-${i % 8}">${TEAM_NAMES[i] || `Team ${i + 1}`}</div>
-        <div class="team-stars">${team.total} pts</div>
         ${team.players
           .map(
             (p) => `
           <div class="team-player">
             <span>${p.name}</span>
-            <span class="team-player-stars">${starsLabel(p.stars)}</span>
           </div>
         `,
           )
@@ -729,6 +790,8 @@
     `,
           )
           .join("");
+
+        renderMatchups(teams);
       }
     </script>
   </body>
